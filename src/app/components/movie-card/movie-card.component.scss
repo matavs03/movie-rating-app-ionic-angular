@@ -1,0 +1,36 @@
+.movie-poster-card {
+  margin: 8px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--ion-color-step-100);
+
+  .poster-container {
+    position: relative;
+    height: 250px; // Fiksna visina za uniforman izgled
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .rating-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 4px 8px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--ion-color-tertiary); // Ona narandžasta iz variables.scss
+    }
+  }
+
+  .movie-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--ion-text-color);
+  }
+}

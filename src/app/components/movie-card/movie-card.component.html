@@ -1,0 +1,27 @@
+<ion-card class="movie-poster-card" (click)="onCardClicked()">
+  <div class="poster-container">
+    <img [src]="movie.poster_path" [alt]="movie.title" />
+
+    @if(movie.vote_average){
+      <div class="rating-badge">
+        <ion-icon name="star-half-outline"></ion-icon>
+        <span>{{ movie.vote_average }}</span>
+      </div>
+
+    }
+  </div>
+
+  <ion-card-header>
+    <ion-card-title class="movie-title">{{ movie.title }}</ion-card-title>
+
+    <ion-card-subtitle class="movie-meta">
+      {{ movie.release_date | date: 'yyyy'}} • {{ getGenreNames() }}
+    </ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    <p class="description ion-text-wrap">
+      {{ movie.overview }}
+    </p>
+  </ion-card-content>
+</ion-card>

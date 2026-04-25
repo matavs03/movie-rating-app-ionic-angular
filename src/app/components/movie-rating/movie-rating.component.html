@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Rate Movie</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="modal-body">
+    <div class="poster-container">
+      <img [src]="selectedMovie.poster_path" [alt]="selectedMovie.title" />
+    </div>
+
+    <div class="info-container ion-margin-top">
+      <h2>{{ selectedMovie.title }}</h2> <p>Release date  -  {{selectedMovie.release_date}}</p> <div class="rating-row">
+      <ion-icon name="star-half-outline" color="warning"></ion-icon>
+      @if(selectedMovie.vote_average){
+        <span class="vote-avg">{{ selectedMovie.vote_average }}</span>
+      }
+    </div>
+      <div>
+        <p>{{selectedMovie.overview}}</p>
+      </div>
+    </div>
+    <div class="rating-input-section ion-margin-top">
+      <ion-item lines="none">
+        <ion-label>Your Rating: <strong>{{ userRating }}</strong></ion-label>
+      </ion-item>
+
+      <ion-range
+        min="1"
+        max="10"
+        step="0.5"
+        snaps="true"
+        [(ngModel)]="userRating"
+        color="warning">
+
+      </ion-range>
+
+      <ion-item fill="outline" class="ion-margin-vertical">
+
+        <ion-textarea
+          [(ngModel)]="userComment"
+          rows="3"
+          placeholder="Write a comment">
+        </ion-textarea>
+      </ion-item>
+
+      <ion-button expand="block" shape="round" (click)="submitRating()">
+        Submit
+      </ion-button>
+    </div>
+
+  </div>
+</ion-content>
+
+
