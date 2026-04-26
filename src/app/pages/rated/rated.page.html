@@ -1,13 +1,43 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>rated</ion-title>
+    <ion-title>My rated movies</ion-title>
+    <ion-buttons [collapse]="true" slot="end" >
+      <ion-button (click)="scrollToTop()">Top</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+
+
+
+<ion-content #mainContent [fullscreen]="true">
+
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">rated</ion-title>
+      <ion-title size="large">My rated movies</ion-title>
+
+    </ion-toolbar>
+    <ion-toolbar>
+      <ion-searchbar
+        [animated]="true"
+        placeholder="Search movies"
+        show-cancel-button="focus"
+        cancel-button-icon="trash"
+        cancel-button-text="Cancel"
+        (ionChange)="onSearchSubmit($event)"
+        (ionClear)="resetList()"
+        (ionCancel)="onSearchCancel()"
+      ></ion-searchbar>
+
     </ion-toolbar>
   </ion-header>
+
+
+
+
+  <div class="movies-grid ion-padding">
+    @for (m of movies; track m.id){
+      <app-movie-card [movie]="m"></app-movie-card>
+    }
+  </div>
 </ion-content>

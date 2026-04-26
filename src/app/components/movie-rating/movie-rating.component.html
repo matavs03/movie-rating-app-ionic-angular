@@ -45,9 +45,14 @@
         </ion-textarea>
       </ion-item>
 
-      <ion-button expand="block" shape="round" (click)="submitRating()">
+      <ion-button [disabled]="userComment.trim() === ''" expand="block" shape="round" (click)="submitRating()">
         Submit
       </ion-button>
+      @if(userComment.trim() === ''){
+        <p style="color: var(--ion-color-medium); font-size: 0.85rem; opacity: 0.7;">Comment is required</p>
+      }
+
+
 
       <div style="height: 100px;"></div>
     </div>

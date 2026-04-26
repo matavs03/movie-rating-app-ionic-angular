@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {Movie} from "../interfaces/movie";
+import {Rating} from "../interfaces/rating";
 import {Observable, of} from "rxjs";
+import {RatedMovie} from "../interfaces/rated-movie";
 
 @Injectable({
   providedIn: 'root',
@@ -54,14 +56,47 @@ export class MoviesService {
     }
   ];
 
+  ratings: Rating[] = [];
+
   getMovies() {
     return of(this.movies);
   }
 
+  getRatedMovies() {
+    return of(this.ratings);
+  }
+
   searchMovies(query: string) : Observable<Movie[]>{
-    console.log('Service: Calling API for movies', query);
 
     const filtered = this.movies.filter(movie => movie.title.toLowerCase().includes(query.toLowerCase()));
+    return of(filtered);
+  }
+
+  addRating(newRating: Rating) {
+    const index = this.ratings.findIndex(r => r.movieId === newRating.movieId);
+
+    if(index > -1){
+      this.ratings[index] = newRating;
+    }
+    else{
+      this.ratings.push(newRating);
+    }
+  }
+
+  private mapRatingsToRatedMovies(): RatedMovie[] {
+    return this.ratings.map(rating => {
+      const movie = this.movies.find(m => m.id === rating.movieId);
+      return { ...movie, rating: rating } as RatedMovie;
+    });
+  }
+
+  returnMovieWithRating(): Observable<RatedMovie[]> {
+    return of(this.mapRatingsToRatedMovies());
+  }
+
+  searchRatedMovie(query: string): Observable<RatedMovie[]> {
+    const all = this.mapRatingsToRatedMovies();
+    const filtered = all.filter(m => m.title.toLowerCase().includes(query.toLowerCase()));
     return of(filtered);
   }
 }

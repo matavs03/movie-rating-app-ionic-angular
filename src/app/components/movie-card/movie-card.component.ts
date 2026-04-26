@@ -6,10 +6,11 @@ import {
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
-  IonIcon
+  IonIcon, IonText
 } from "@ionic/angular/standalone";
 import {Movie} from "../../interfaces/movie";
 import {DatePipe} from "@angular/common";
+import {RatedMovie} from "../../interfaces/rated-movie";
 
 
 @Component({
@@ -24,13 +25,14 @@ import {DatePipe} from "@angular/common";
     IonCardSubtitle,
     IonCardContent,
     DatePipe,
+    IonText,
 
   ],
   standalone: true
 })
 export class MovieCardComponent  implements OnInit {
 
-  @Input() movie! : Movie;
+  @Input() movie! : Movie | RatedMovie;
   @Output() cardClicked = new EventEmitter<Movie>();
 
 
@@ -68,6 +70,9 @@ export class MovieCardComponent  implements OnInit {
     this.cardClicked.emit(this.movie);
   }
 
+  get userRating(){
+    return (this.movie as RatedMovie).rating;
+  }
 
 
 }

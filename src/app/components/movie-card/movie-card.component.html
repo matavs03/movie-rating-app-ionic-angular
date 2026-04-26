@@ -7,7 +7,13 @@
         <ion-icon name="star-half-outline"></ion-icon>
         <span>{{ movie.vote_average }}</span>
       </div>
+    }
 
+    @if(userRating){
+      <div class="user-rating-badge">
+        <ion-icon name="star" color="warning"></ion-icon>
+        <span>{{ userRating.score }}</span>
+      </div>
     }
   </div>
 
@@ -17,9 +23,25 @@
     <ion-card-subtitle class="movie-meta">
       {{ movie.release_date | date: 'yyyy'}} • {{ getGenreNames() }}
     </ion-card-subtitle>
+
+    @if(userRating){
+      <div class="user-rating-info">
+        <ion-text color="warning">
+          <strong>Your rating: {{ userRating.score }}/10</strong>
+        </ion-text>
+      </div>
+    }
   </ion-card-header>
 
   <ion-card-content>
+    @if(userRating && userRating.comment){
+      <div class="user-review-block">
+        <ion-icon name="quote-outline"></ion-icon>
+        <p class="user-comment">Your comment: {{ userRating.comment }}</p>
+      </div>
+      <hr class="review-divider">
+    }
+
     <p class="description ion-text-wrap">
       {{ movie.overview }}
     </p>

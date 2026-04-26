@@ -47,6 +47,7 @@ export class MovieRatingComponent  implements OnInit {
   userRating: number = 1;
   userComment: string = '';
 
+
   constructor() { }
 
   ngOnInit() {}
@@ -54,9 +55,6 @@ export class MovieRatingComponent  implements OnInit {
 
 
   submitRating() {
-    if(this.userComment === ""){
-      return;
-    }
     this.modalController.dismiss({
       rating: this.userRating,
       comment: this.userComment,
