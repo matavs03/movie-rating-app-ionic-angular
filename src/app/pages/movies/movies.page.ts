@@ -60,6 +60,7 @@ export class MoviesPage implements OnInit {
     }
   }
 
+
   onSearchCancel(){
     this.resetList();
   }
@@ -80,8 +81,8 @@ export class MoviesPage implements OnInit {
       },
       presentingElement: await this.modalController.getTop(),
       handle: true,
-      breakpoints: [0, 0.75, 1],
-      initialBreakpoint: 0.75,
+      breakpoints: [0,1],
+      initialBreakpoint: 1,
       handleBehavior: 'cycle'
     });
     await modal.present();

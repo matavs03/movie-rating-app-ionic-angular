@@ -25,6 +25,7 @@
         cancel-button-icon="trash"
         cancel-button-text="Cancel"
         (ionChange)="onSearchSubmit($event)"
+        (ionClear)="resetList()"
         (ionCancel)="onSearchCancel()"
       ></ion-searchbar>
       <div class="subtitle ion-padding-horizontal">

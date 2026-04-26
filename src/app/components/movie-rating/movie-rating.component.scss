@@ -66,6 +66,9 @@
       border-top: 1px solid var(--ion-color-step-200);
       padding-top: 20px;
       width: 100%;
+      &:focus-within {
+        padding-bottom: 300px;
+      }
 
 
 
