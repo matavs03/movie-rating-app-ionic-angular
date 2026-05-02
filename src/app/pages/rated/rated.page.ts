@@ -52,7 +52,6 @@ export class RatedPage implements OnInit {
     this.moviesService.returnMovieWithRating().subscribe(
       res => {
         this.movies = res;
-        console.log('Rated movies loaded:', res);
       }
     );
   }
