@@ -1,13 +1,46 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>account</ion-title>
+    <ion-title>Profile</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="danger" (click)="logout()">
+        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">account</ion-title>
+      <ion-title size="large">Profile</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <div class="profile-layout ion-padding">
+    <ion-grid class="ion-no-padding">
+      <ion-row class="ion-align-items-center">
+        <ion-col size="auto" class="ion-padding-end">
+          <div class="profile-avatar">
+            <ion-icon name="person-circle-outline"></ion-icon>
+          </div>
+        </ion-col>
+
+        <ion-col>
+          <h2 class="user-fullname">{{ currentUser?.firstName }} {{ currentUser?.lastName }}</h2>
+          <p class="user-username">&#64;{{ currentUser?.username }}</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div class="stats-bar ion-margin-top">
+      <div class="stat-item">
+        <ion-icon name="film-outline" color="primary"></ion-icon>
+        <div class="stat-text">
+          <span class="stat-label">Movies rated: </span>
+          <span class="stat-number">{{ ratedMoviesCount }}</span>
+
+        </div>
+      </div>
+    </div>
+  </div>
 </ion-content>

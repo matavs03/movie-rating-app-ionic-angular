@@ -4,14 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { addIcons } from 'ionicons';
 import { videocamOutline, starHalfOutline, personOutline } from 'ionicons/icons';
 import {
-  IonContent,
-  IonHeader,
   IonIcon,
   IonTabBar,
   IonTabButton,
   IonTabs,
-  IonTitle,
-  IonToolbar
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -19,7 +15,7 @@ import {
   templateUrl: './tabs.page.html',
   styleUrls: ['./tabs.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonTabs, IonTabBar, IonTabButton, IonIcon]
+  imports: [CommonModule, FormsModule, IonTabs, IonTabBar, IonTabButton, IonIcon]
 })
 export class TabsPage implements OnInit {
 

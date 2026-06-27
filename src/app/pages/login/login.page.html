@@ -1,0 +1,46 @@
+<ion-content class="ion-padding label-floating">
+  <div class="login-container">
+
+    <div class="logo-section ion-text-center">
+      <ion-icon name="film-outline" color="primary" class="app-logo"></ion-icon>
+      <h1>Movie Rating App</h1>
+
+    </div>
+
+    <div class="form-section">
+      <ion-item lines="none" class="custom-input-item">
+        <ion-input
+          label="Email"
+          labelPlacement="floating"
+          type="email"
+          [(ngModel)]="email"
+          placeholder="Enter your email">
+        </ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="custom-input-item ion-margin-top">
+        <ion-input
+          label="Password"
+          labelPlacement="floating"
+          type="password"
+          [(ngModel)]="password"
+          placeholder="Enter your password">
+        </ion-input>
+      </ion-item>
+
+      <ion-button expand="block" class="ion-margin-top login-btn" (click)="onLogin()">
+        Sign In
+        <ion-icon slot="end" name="log-in-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+  </div>
+  <footer>
+    <div>
+      <p>Mobilno računarstvo, FON 2026</p>
+    </div>
+    <div>
+      <p>Matija Veljković - Šupić, 2022/0195</p>
+    </div>
+  </footer>
+</ion-content>
