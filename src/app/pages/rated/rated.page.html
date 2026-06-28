@@ -37,7 +37,7 @@
 
   <div class="movies-grid ion-padding">
     @for (m of movies; track m.id){
-      <app-movie-card [movie]="m"></app-movie-card>
+      <app-movie-card [movie]="m"  (cardClicked)="openRatingModal($event)"></app-movie-card>
     }
   </div>
 </ion-content>

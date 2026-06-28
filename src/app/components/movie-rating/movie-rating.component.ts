@@ -12,6 +12,7 @@ import {
 } from "@ionic/angular/standalone";
 import {DatePipe} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {Rating} from "../../interfaces/rating";
 
 @Component({
   selector: 'app-movie-rating',
@@ -37,14 +38,22 @@ export class MovieRatingComponent  implements OnInit {
   private modalController = inject(ModalController);
 
   @Input() selectedMovie!: Movie;
+  @Input() existingRating!: Rating;
 
+  isEditing: boolean = false;
   userRating: number = 1;
   userComment: string = '';
 
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.existingRating !== null) {
+      this.isEditing = true;
+      this.userRating = this.existingRating.score;
+      this.userComment = this.existingRating.comment;
+    }
+  }
 
 
 
@@ -54,5 +63,10 @@ export class MovieRatingComponent  implements OnInit {
       comment: this.userComment,
       movieId: this.selectedMovie.id
     }, 'confirm');
+  }
+
+  onDeleteRating() {
+    console.log('Brisanje ocene...');
+    this.modalController.dismiss({ deleted: true });
   }
 }

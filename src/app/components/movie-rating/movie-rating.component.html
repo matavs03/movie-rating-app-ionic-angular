@@ -58,6 +58,15 @@
     </div>
 
   </div>
+
+  <div class="button-container">
+    @if(isEditing) {
+      <ion-button expand="block" color="danger" fill="clear" class="ion-margin-top" (click)="onDeleteRating()">
+        <ion-icon slot="start" name="trash-outline"></ion-icon>
+        Remove Rating
+      </ion-button>
+    }
+  </div>
 </ion-content>
 
 

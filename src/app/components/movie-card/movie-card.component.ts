@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Inject, Input, OnInit, Output, SimpleChanges} from '@angular/core';
 import { CommonModule } from "@angular/common";
 import {
   IonCard,
@@ -11,6 +11,7 @@ import {
 import {Movie} from "../../interfaces/movie";
 import {DatePipe} from "@angular/common";
 import {RatedMovie} from "../../interfaces/rated-movie";
+import {MoviesService} from "../../services/movies.service";
 
 
 @Component({
@@ -32,16 +33,43 @@ import {RatedMovie} from "../../interfaces/rated-movie";
 })
 export class MovieCardComponent  implements OnInit {
 
+  private movieService = inject(MoviesService);
+
   @Input() movie! : Movie | RatedMovie;
   @Output() cardClicked = new EventEmitter<Movie>();
 
+  rating: number = 0;
+  comment: string = "";
 
+  isRated: boolean = false;
 
   constructor() {
 
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.checkRating();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['movie']) {
+      this.checkRating();
+    }
+  }
+
+  private checkRating() {
+    const foundRating = this.movieService.returnRating(this.movie.id);
+    if (foundRating !== null && foundRating !== undefined) {
+      this.isRated = true;
+      this.comment = foundRating.comment;
+      this.rating = foundRating.score;
+    } else {
+      // OBAVEZNO resetuj na false ako je ocena obrisana!
+      this.isRated = false;
+      this.comment = "";
+      this.rating = 0;
+    }
+  }
 
   private genreMap: { [key: number]: string } = {
     28: 'Action',

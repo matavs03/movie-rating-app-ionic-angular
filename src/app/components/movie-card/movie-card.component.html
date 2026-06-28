@@ -17,20 +17,20 @@
       {{ movie.release_date | date: 'yyyy'}} • {{ getGenreNames() }}
     </ion-card-subtitle>
 
-    @if(userRating){
+    @if(isRated){
       <div class="user-rating-info">
         <ion-text color="warning">
-          <strong>Your rating: {{ userRating.score }}/10</strong>
+          <strong>Your rating: {{ rating }}/10</strong>
         </ion-text>
       </div>
     }
   </ion-card-header>
 
   <ion-card-content>
-    @if(userRating && userRating.comment){
+    @if(isRated){
       <div class="user-review-block">
         <ion-icon name="quote-outline"></ion-icon>
-        <p class="user-comment">Your comment: {{ userRating.comment }}</p>
+        <p class="user-comment">Your comment: {{ comment }}</p>
       </div>
       <hr class="review-divider">
     }

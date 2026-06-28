@@ -99,4 +99,14 @@ export class MoviesService {
     const filtered = all.filter(m => m.title.toLowerCase().includes(query.toLowerCase()));
     return of(filtered);
   }
+
+  removeRating(movieId: number) {
+    this.ratings = this.ratings.filter(r => r.movieId !== movieId);
+    //sve ovo treba da se menja kada se doda firebase
+  }
+
+  returnRating(movieId: number) {
+    const rating = this.ratings.find(r => r.movieId === movieId) ?? null;
+    return rating!;
+  }
 }

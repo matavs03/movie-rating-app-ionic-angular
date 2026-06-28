@@ -19,6 +19,7 @@ import { trash } from 'ionicons/icons';
 import {addIcons} from "ionicons";
 import {ModalController} from "@ionic/angular/standalone";
 import {MovieRatingComponent} from "../../components/movie-rating/movie-rating.component";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-movies',
@@ -33,6 +34,8 @@ export class MoviesPage implements OnInit {
   private moviesService = inject(MoviesService);
 
   private modalController = inject(ModalController);
+
+  private authService = inject(AuthService);
 
   MOCK_USER_ID : string = 'matija123'; //OVO OBRISATI KADA SE UBACI BACK
 
@@ -81,10 +84,14 @@ export class MoviesPage implements OnInit {
   }
 
   async openRatingModal(movie: Movie){
+
+    const foundRating = this.moviesService.returnRating(movie.id);
+
     const modal = await this.modalController.create({
       component: MovieRatingComponent,
       componentProps: {
-        selectedMovie: movie
+        selectedMovie: movie,
+        existingRating: foundRating
       },
       presentingElement: await this.modalController.getTop(),
       handle: true,
@@ -100,11 +107,28 @@ export class MoviesPage implements OnInit {
         movieId: data.movieId,
         score: data.rating,
         comment: data.comment,
-        userId: this.MOCK_USER_ID,
+        userId: this.authService.getCurrentUserId() ?? 'undefined',
         createdAt: new Date()
       };
 
       this.moviesService.addRating(newRating);
+
+      this.movies = this.movies.map(m => {
+        if (m.id === movie.id) {
+          return { ...m };
+        }
+        return m;
+      });
+    }
+    else if(data?.deleted){
+      this.moviesService.removeRating(movie.id);
+
+      this.movies = this.movies.map(m => {
+        if (m.id === movie.id) {
+          return { ...m };
+        }
+        return m;
+      });
     }
   }
 
