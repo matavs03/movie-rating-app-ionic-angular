@@ -15,7 +15,6 @@ import {MoviesService} from "../../services/movies.service";
 import {Movie} from "../../interfaces/movie";
 import {addIcons} from "ionicons";
 import {trash} from "ionicons/icons";
-import {RatedMovie} from "../../interfaces/rated-movie";
 import {MovieRatingComponent} from "../../components/movie-rating/movie-rating.component";
 import {Rating} from "../../interfaces/rating";
 import {AuthService} from "../../services/auth.service";
@@ -30,55 +29,64 @@ import {AuthService} from "../../services/auth.service";
 export class RatedPage implements OnInit {
 
   private moviesService = inject(MoviesService);
-
   private modalController = inject(ModalController);
-
-  private authService = Inject(AuthService);
-
-  MOCK_USER_ID : string = 'matija123'; //OVO OBRISATI KADA SE UBACI BACK
+  private authService = inject(AuthService);
 
   @ViewChild('mainContent', {static: true}) content!: IonContent;
 
-  movies: RatedMovie[] = [];
+
+  movies: Movie[] = [];
 
   constructor() {
     addIcons({ trash });
   }
 
   ngOnInit() {
-    this.moviesService.returnMovieWithRating().subscribe(
-      res => {
-        this.movies = res;
-      }
-    );
+    // this.loadMyRatedMovies();
   }
 
   ionViewWillEnter() {
-    this.moviesService.returnMovieWithRating().subscribe(
-      res => {
-        this.movies = res;
-      }
-    );
+    this.loadMyRatedMovies();
+  }
+
+  loadMyRatedMovies() {
+    this.movies = [];
+    const myRatings = this.moviesService.loggedUserRatings;
+    for (const rating of myRatings) {
+      this.moviesService.getMovieById(rating.movieId).subscribe({
+        next: (tmdbMovie: any) => {
+
+          const mappedGenreIds = tmdbMovie.genres ? tmdbMovie.genres.map((g: any) => g.id) : [];
+
+          const fullMovie: Movie = {
+            id: tmdbMovie.id,
+            title: tmdbMovie.title,
+            poster_path: tmdbMovie.poster_path ? `https://image.tmdb.org/t/p/w500${tmdbMovie.poster_path}` : 'assets/placeholder.png',
+            release_date: tmdbMovie.release_date,
+            vote_average: tmdbMovie.vote_average,
+            overview: tmdbMovie.overview,
+            genre_ids: mappedGenreIds
+          };
+
+          this.movies.push(fullMovie);
+        }
+      });
+    }
   }
 
   onSearchSubmit(event: any){
     const query = event.detail.value;
-
     if(query && query.trim() !== ''){
-      this.moviesService.searchRatedMovie(query).subscribe(res => this.movies = res);
-    }
-    else{
-      this.resetList();
+      this.movies = this.movies.filter(m =>
+        m.title.toLowerCase().includes(query.toLowerCase())
+      );
+    } else {
+      this.loadMyRatedMovies();
     }
   }
-
 
   onSearchCancel(){
-    this.resetList();
-  }
-
-  resetList(){
-    this.moviesService.returnMovieWithRating().subscribe(res => this.movies = res);
+    this.loadMyRatedMovies();
   }
 
   scrollToTop(){
@@ -104,6 +112,8 @@ export class RatedPage implements OnInit {
 
     const {data, role} = await modal.onWillDismiss();
 
+    const currentUserId = this.authService.getCurrentUserId() ?? 'undefined';
+
     if(role === 'confirm'){
       const newRating: Rating = {
         movieId: data.movieId,
@@ -113,11 +123,25 @@ export class RatedPage implements OnInit {
         createdAt: new Date()
       };
 
-      this.moviesService.addRating(newRating);
+      this.moviesService.addRatingWithDatabase(newRating).subscribe({
+        next: () => {
+          this.movies = this.movies.map(m => {
+            if (m.id === movie.id) {
+              return { ...m };
+            }
+            return m;
+          });
+        }
+      });
     }
+
     else if(data?.deleted){
-      this.moviesService.removeRating(movie.id);
-      this.resetList();
+
+      this.moviesService.removeRatingSaBazom(movie.id, currentUserId).subscribe({
+        next: () => {
+          this.movies = this.movies.filter(m => m.id !== movie.id);
+        }
+      });
     }
   }
 }

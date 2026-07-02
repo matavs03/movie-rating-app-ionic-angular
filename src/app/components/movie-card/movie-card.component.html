@@ -5,7 +5,7 @@
     @if(movie.vote_average){
       <div class="rating-badge">
         <ion-icon name="star-half-outline"></ion-icon>
-        <span>{{ movie.vote_average }}</span>
+        <span>{{ movie.vote_average | number: '1.1-1' }}</span>
       </div>
     }
   </div>

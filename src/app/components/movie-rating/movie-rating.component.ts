@@ -1,5 +1,6 @@
 import {Component, inject, Input, OnInit} from '@angular/core';
 import {Movie} from "../../interfaces/movie";
+import {CommonModule, DecimalPipe} from "@angular/common";
 import {
   IonButton,
   IonButtons,
@@ -30,7 +31,8 @@ import {Rating} from "../../interfaces/rating";
     IonLabel,
     IonRange,
     FormsModule,
-    IonTextarea
+    IonTextarea,
+    DecimalPipe
   ]
 })
 export class MovieRatingComponent  implements OnInit {

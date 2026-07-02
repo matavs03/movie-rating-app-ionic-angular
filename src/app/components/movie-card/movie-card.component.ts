@@ -1,5 +1,5 @@
 import {Component, EventEmitter, inject, Inject, Input, OnInit, Output, SimpleChanges} from '@angular/core';
-import { CommonModule } from "@angular/common";
+import {CommonModule, DecimalPipe} from "@angular/common";
 import {
   IonCard,
   IonCardContent,
@@ -10,7 +10,6 @@ import {
 } from "@ionic/angular/standalone";
 import {Movie} from "../../interfaces/movie";
 import {DatePipe} from "@angular/common";
-import {RatedMovie} from "../../interfaces/rated-movie";
 import {MoviesService} from "../../services/movies.service";
 
 
@@ -27,6 +26,7 @@ import {MoviesService} from "../../services/movies.service";
     IonCardContent,
     DatePipe,
     IonText,
+    DecimalPipe,
 
   ],
   standalone: true
@@ -35,7 +35,7 @@ export class MovieCardComponent  implements OnInit {
 
   private movieService = inject(MoviesService);
 
-  @Input() movie! : Movie | RatedMovie;
+  @Input() movie! : Movie;
   @Output() cardClicked = new EventEmitter<Movie>();
 
   rating: number = 0;
@@ -64,7 +64,6 @@ export class MovieCardComponent  implements OnInit {
       this.comment = foundRating.comment;
       this.rating = foundRating.score;
     } else {
-      // OBAVEZNO resetuj na false ako je ocena obrisana!
       this.isRated = false;
       this.comment = "";
       this.rating = 0;
@@ -98,9 +97,6 @@ export class MovieCardComponent  implements OnInit {
     this.cardClicked.emit(this.movie);
   }
 
-  get userRating(){
-    return (this.movie as RatedMovie).rating;
-  }
 
 
 }

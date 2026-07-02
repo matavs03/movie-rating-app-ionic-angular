@@ -1,11 +1,15 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../interfaces/user';
+import {MoviesService} from "./movies.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  private moviesService = inject(MoviesService);
+
   private currentUserSubject = new BehaviorSubject<User | null>(null);
 
 
@@ -18,6 +22,7 @@ export class AuthService {
     const user = this.currentUserSubject.value;
     return user ? user.uid : null;
   }
+
 
   login() {
     this.currentUserSubject.next({

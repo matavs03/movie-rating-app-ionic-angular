@@ -50,6 +50,7 @@ export class AccountPage {
 
   ratedMoviesCount: number = 0;
 
+
   constructor() {
     addIcons({ logOutOutline, filmOutline, personCircleOutline });
   }
@@ -59,9 +60,11 @@ export class AccountPage {
     this.authService.getCurrentUser().subscribe(user => {
       this.currentUser = user!;
     });
+    this.ratedMoviesCount = this.moviesService.loggedUserRatings.length;
   }
     logout() {
       this.authService.logout();
       this.router.navigate(['/login']);
     }
+
 }
